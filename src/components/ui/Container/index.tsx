@@ -6,7 +6,7 @@ type ContainerProps = {
 }
 
 export const Container:React.FC<ContainerProps> = ({children, className}) => (
-    <main className="flex h-[90vh] flex-1 overflow-y-scroll">
+    <main className="flex h-[calc(100vh-4.5rem)] flex-1 overflow-y-scroll p-4">
         <div className={`${className}`}>
             {children}
         </div>

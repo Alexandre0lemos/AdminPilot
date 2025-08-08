@@ -1,13 +1,13 @@
 import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
-import { Dashboard } from "../../components/Dashboard/Dashboard";
+import { Dashboard } from "../../Pages/Dashboard";
 import { Container } from "../../components/ui/Container";
-import { Users } from "../../components/Users";
+import { CadastrarUsuario } from "../../components/CadastrarUsuario";
 
 export const Home: React.FC = () => (
     <Routes>
       <Route path="/home" element={<Dashboard />} />
-      <Route path="/users" element={<Users />} />
+      <Route path="/users" element={<CadastrarUsuario />} />
 
 
       <Route path="/not-found" element={

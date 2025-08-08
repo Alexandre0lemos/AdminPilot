@@ -17,6 +17,7 @@ function App() {
 
   const handleStylePageSelect = (location: Location) => {
     document.querySelectorAll(".page-activate").forEach(item => item.classList.remove("page-activate"))
+    console.log(location.pathname)
     document.getElementById(location.pathname.split("/")[1])?.classList.add("page-activate")
   } 
 
