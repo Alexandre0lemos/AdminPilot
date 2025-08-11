@@ -1,11 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Container } from "../../components/ui/Container";
 
-export const Dashboard: React.FC = () => {
-
-
-
-
+export const Users: React.FC = () => {
   return (
     <Container>
       
