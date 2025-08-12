@@ -12,13 +12,20 @@ interface Location {
   key: string;
 }
 
+
+
 function App() {
   const location = useLocation()
+  
 
   const handleStylePageSelect = (location: Location) => {
     document.querySelectorAll(".page-activate").forEach(item => item.classList.remove("page-activate"))
     document.getElementById(location.pathname.split("/")[1])?.classList.add("page-activate")
-  } 
+
+    if (location.pathname == "/cadastrar-usuario") {
+      document.getElementById("users")?.classList.add("page-activate")
+    }
+  }
 
   useEffect(() => {
     handleStylePageSelect(location)

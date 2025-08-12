@@ -1,0 +1,9 @@
+.span {
+    display: none;
+}
+
+.username:hover {
+    .span {
+        display: flex;
+    }
+}

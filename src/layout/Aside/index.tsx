@@ -11,7 +11,7 @@ export const Aside: React.FC = () => {
       <SidebarOption label="Usuários" pagePath="/users">
         <Users />
       </SidebarOption>
-      <SidebarOption label="Atualizar-OPs" pagePath="/update-op">
+      <SidebarOption label="Atualizar-OPs" pagePath="/update-ops">
         <Upload />
       </SidebarOption>
       <SidebarOption label="Lançamentos" pagePath="/views">

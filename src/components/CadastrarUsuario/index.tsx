@@ -16,7 +16,7 @@ export const CadastrarUsuario: React.FC = () => {
         if (!username) return alert("Campo Usuário vazio"), false
         if (!password) return alert("Campo Senha vazio"), false
         if (!confirmPassword) return  alert("Campo Confirmar senha vazio"), false
-        if (password.length < 8) return alert("Campo Senha precisa ter no minimo 8 caracterios"), false
+        if (password.length < 4) return alert("Campo Senha precisa ter no minimo 4 caracterios"), false
         if (confirmPassword !== password) return alert("Campo Senha e Confirmar senha precisam ser iguais"), false
 
         return true
@@ -28,7 +28,7 @@ export const CadastrarUsuario: React.FC = () => {
         }
 
         try {
-            const response = await fetch("http://192.168.0.10:5108/create-user", {
+            const response = await fetch("http://192.168.0.111:8080/api/registrar-usuario", {
                 method: "POST",
 
                 headers: {
@@ -42,29 +42,27 @@ export const CadastrarUsuario: React.FC = () => {
             })
 
             const bodyResponse = await response.json()
-            alert(bodyResponse.username + " - " + bodyResponse.password)
-            setUsername("")
-            setPassword("")
-            setConfirmPassword("")
+            alert(bodyResponse.status)
+            navigate("/users")
 
         } catch (error) {
-            console.log(error)
+            alert(error)
         }
     }
 
     return (
-        <Container className="flex justify-center items-center w-full">
-            <div className="flex flex-col justify-center items-center rounded-lg pt-12 pb-9 p-8 gap-1 text-gray-600 font-semibold bg-white shadow-2xl">
+        <Container className="flex justify-center items-center flex-1">
+            <div className="flex flex-col justify-center items-center rounded-lg pt-2 pb-2 p-4 gap-1 text-gray-600 font-semibold bg-white shadow-2xl">
                 <div className="flex items-center justify-center w-full relative">
                     <ArrowBigLeft onClick={() => navigate("/users")} size={"1.25rem"} className="border cursor-pointer hover:bg-red-300 hover:text-white transition rounded-2xl absolute left-0" />
                     <span className="text-2xl">Cadastrar Usuario</span>
                 </div>
 
-                <div className="grid grid-cols-1 grid-rows-4 place-items-center w-[36rem] pt-1 pb-1">
+                <div className="grid grid-cols-1 grid-rows-4 place-items-center w-[36rem] pt-1">
                     <Input value={username} identificador="username" onChange={(e) => setUsername(e.target.value)} required type="text" label="Usuário" />
                     <Input value={password} identificador="password" onChange={(e) => setPassword(e.target.value)} required type="password" label="Senha" />
                     <Input value={confirmPassword} identificador="confirm-password" onChange={(e) => setConfirmPassword(e.target.value)} required type="password" label="Confirmar senha" />
-                    <button onClick={handleCreateUser} className="text-white font-bold mt-2 h-9 bg-gray-700 rounded-md w-full">Cadastrar</button>
+                    <button onClick={handleCreateUser} className="text-white font-bold mt-2 h-9 hover:cursor-pointer bg-gray-700 rounded-md w-full">Cadastrar</button>
                 </div>
             </div>
         </Container>

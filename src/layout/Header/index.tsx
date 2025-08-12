@@ -7,7 +7,7 @@ export const Header: React.FC = () => (
       <Menu className="hover:cursor-pointer" size={"1.8rem"} />
     </div>
     <div className="flex flex-1 justify-end gap-2 items-center">
-      <span>Alexandre0lemos</span>
+      <span>Admin</span>
       <span className="text-2xl capitalize border-2 rounded-2xl mr-6">
         <User2 />
       </span>
