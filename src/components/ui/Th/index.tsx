@@ -6,7 +6,7 @@ type TrProps = {
 
 export const Th: React.FC<TrProps> = ({ children }) => {
   return (
-    <th className="overflow-hidden text-ellipsis uppercase border border-[rgba(0,0,0,0.2)] px-1 py-4 bg-red-400 text-white">
+    <th className="overflow-hidden text-ellipsis uppercase border border-[rgba(0,0,0,0.2)] px-1 py-4 bg-gray-800 text-white">
       {children}
     </th>
   );

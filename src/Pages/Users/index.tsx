@@ -103,7 +103,7 @@ export const Users: React.FC = () => {
           </div>
           <button
             onClick={() => navigate("/cadastrar-usuario")}
-            className="border border-white bg-gray-700 hover:bg-gray-600 p-1.5 hover:cursor-pointer text-white shadow-2xl capitalize font-bold rounded-lg"
+            className="border border-white bg-gray-800 hover:bg-gray-700 p-1.5 hover:cursor-pointer text-white shadow-2xl capitalize font-bold rounded-lg"
           >
             Cadastrar Usuario
           </button>

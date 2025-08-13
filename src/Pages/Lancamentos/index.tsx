@@ -63,7 +63,7 @@ export const Lancamentos: React.FC = () => {
 
     const interval = setInterval(() => {
       handleGetLancamentos();
-    }, 2000);
+    }, 1000);
 
     return () => clearInterval(interval);
   }, []);
@@ -89,7 +89,7 @@ export const Lancamentos: React.FC = () => {
         </select>
 
       </nav>
-      <div className="overflow-scroll">
+      <div className="overflow-scroll rounded-t-lg rounded-b">
         <table className="text-center w-full">
           <thead className="sticky top-0">
             <Tr>

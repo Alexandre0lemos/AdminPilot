@@ -73,7 +73,7 @@ export const UpdateOPs: React.FC = () => {
           >
             <FileJson2 />
           </label>
-          <span className="text-sm text-gray-700 m-auto pr-8 whitespace-nowrap">
+          <span className="text-sm text-gray-800 m-auto pr-8 whitespace-nowrap">
             {fileName}
           </span>
           <input
