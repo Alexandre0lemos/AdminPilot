@@ -24,23 +24,37 @@ export const Lancamentos: React.FC = () => {
   const [lancamentos, setLancamentos] = useState<ReadonlyArray<Ordem>>();
   const ultimoLancamento = useRef("")
   const [filtro, setFiltro] = useState(-1);
+  const inProcess = useRef(false)
 
   const handleGetLancamentos = async () => {
-    try {
-      const response = await fetch("http://192.168.0.111:8080/view/lancados");
+    if (inProcess.current) return false;
+    inProcess.current = true
 
-      if (!response.ok) return alert("Ocorreu algum erro na logica"), false;
+    const abortController = new AbortController()
+    const timeOut = setTimeout(() => abortController.abort(), 5000)
+
+    try {
+      const response = await fetch("http://192.168.0.111:8080/view/lancados", {
+        method: "GET",
+        signal: abortController.signal
+      });
+
+      clearTimeout(timeOut)
+
+      if (!response.ok) return console.log("Ocorreu algum erro na logica"), false;
 
       const response_json = await response.json();
 
-      if (JSON.stringify(response_json) == ultimoLancamento.current) {
-        return false
-      } else {
+      if (JSON.stringify(response_json) == ultimoLancamento.current) return false
+
+      else {
         ultimoLancamento.current = JSON.stringify(response_json)
         setLancamentos(response_json)
       }
     } catch {
       alert("erro de conexão");
+    } finally {
+      inProcess.current = false
     }
   };
 
@@ -49,7 +63,7 @@ export const Lancamentos: React.FC = () => {
 
     const interval = setInterval(() => {
       handleGetLancamentos();
-    }, 1000);
+    }, 2000);
 
     return () => clearInterval(interval);
   }, []);
@@ -73,9 +87,7 @@ export const Lancamentos: React.FC = () => {
           <option value="0">PENDENTES</option>
           <option value="1">FINALIZADOS</option>
         </select>
-        {/* <span className="hover:cursor-pointer hover:scale-[.9] active:scale-[1]" onClick={handleGetLancamentos}>
-            <RotateCcw />
-          </span> */}
+
       </nav>
       <div className="overflow-scroll">
         <table className="text-center w-full">

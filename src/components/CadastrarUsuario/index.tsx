@@ -3,7 +3,7 @@ import { Container } from "../ui/Container";
 import { Input } from "../ui/Input";
 import { ArrowBigLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 export const CadastrarUsuario: React.FC = () => {
     const navigate = useNavigate()
@@ -11,6 +11,7 @@ export const CadastrarUsuario: React.FC = () => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
+    const inProcess = useRef(false)
 
     const validation = () => {
         if (!username) return alert("Campo Usuário vazio"), false
@@ -23,9 +24,14 @@ export const CadastrarUsuario: React.FC = () => {
     }
 
     const handleCreateUser = async () => {
-        if (!validation()) {    
+        if (!validation() || inProcess.current) {    
             return;
         }
+
+        inProcess.current = true
+
+        const abortController = new AbortController()
+        const timeOut = setTimeout(() => abortController.abort(), 2000)
 
         try {
             const response = await fetch("http://192.168.0.111:8080/api/registrar-usuario", {
@@ -39,20 +45,29 @@ export const CadastrarUsuario: React.FC = () => {
                     username: username,
                     password: password
                 }),
+
+                signal:abortController.signal
             })
 
+            clearTimeout(timeOut)
+
             const bodyResponse = await response.json()
+
             alert(bodyResponse.status)
+            
             navigate("/users")
 
         } catch (error) {
-            alert(error)
+            alert("Erro de conexão")
+
+        } finally {
+            inProcess.current = false
         }
     }
 
     return (
         <Container className="flex justify-center items-center flex-1">
-            <div className="flex flex-col justify-center items-center rounded-lg pt-2 pb-2 p-4 gap-1 text-gray-600 font-semibold bg-white shadow-2xl">
+            <div className="flex flex-col justify-center items-center rounded-lg p-4 gap-1 text-gray-600 font-semibold bg-white shadow-2xl">
                 <div className="flex items-center justify-center w-full relative">
                     <ArrowBigLeft onClick={() => navigate("/users")} size={"1.25rem"} className="border cursor-pointer hover:bg-red-300 hover:text-white transition rounded-2xl absolute left-0" />
                     <span className="text-2xl">Cadastrar Usuario</span>

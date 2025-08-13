@@ -5,6 +5,7 @@ import { FileJson2 } from "lucide-react";
 export const UpdateOPs: React.FC = () => {
   const [fileName, setFileName] = useState("Nenhum arquivo escolhido");
   const file = useRef<HTMLInputElement | null>(null)
+  const inProcess = useRef(false)
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     file.current = e.target
@@ -13,33 +14,55 @@ export const UpdateOPs: React.FC = () => {
   };
 
   const handlePostFile = async () => {
-    if (!file.current?.files?.[0]) return alert("Nenhum arquivo selecionado"), false;
+    if (!inProcess.current) {
+      if (!file.current?.files?.[0]) return alert("Nenhum arquivo selecionado"), false;
 
-    const formData = new FormData();
-    formData.append("file", file.current?.files?.[0]);
+      inProcess.current = true
 
-    try {
-      const response = await fetch(
-        "http://192.168.0.111:8080/atualizar_ordens_aberta",
-        {
-          method: "POST",
-          body: formData,
+      const formData = new FormData();
+
+      formData.append("file", file.current?.files?.[0]);
+
+      const abort = new AbortController()
+
+      const timeOut = setTimeout(() => {
+        abort.abort()
+        alert("erro de conexão")
+        inProcess.current = false
+      }, 2000);
+
+      try {
+        const response = await fetch(
+          "http://192.168.0.111:8080/atualizar_ordens_aberta",
+          {
+            method: "POST",
+            body: formData,
+            signal: abort.signal
+          }
+        );
+
+        clearTimeout(timeOut)
+
+        if (!response.ok) {
+          alert("Erro na logica")
+          return false
         }
-      );
+        const responseJson = await response.json()
 
-      if(!response.ok) return alert("Erro na logica"), false
+        console.log(responseJson.status)
 
-      const responseJson = await response.json()
+        file.current = null
 
-      alert(responseJson.status)
 
-      file.current = null
-      setFileName("Nenhum arquivo selecionado")
-    } catch (error) {
-      alert(error);
-    }
-  };
+        setFileName("Nenhum arquivo selecionado")
+      } catch (error) {
+        console.log(error)
 
+      } finally {
+        inProcess.current = false
+      }
+    };
+  }
   return (
     <Container className="flex justify-center items-center flex-1">
       <div className="w-min min-w-[300px] p-4 flex flex-col shadow-2xl border rounded border-gray-200 gap-2">
@@ -64,9 +87,9 @@ export const UpdateOPs: React.FC = () => {
           />
         </div>
 
-        <button 
-        onClick={handlePostFile}
-        className="bg-gray-800 text-sm pt-1 pb-1 hover:cursor-pointer hover:bg-gray-700 text-white rounded">
+        <button
+          onClick={handlePostFile}
+          className="bg-gray-800 text-sm pt-1 pb-1 hover:cursor-pointer hover:bg-gray-700 text-white rounded">
           Atualizar OPs
         </button>
       </div>
