@@ -2,8 +2,8 @@
     &::after {
         content: "";
         border-bottom: 1px solid brown;
-        transition: width .5s;
         width: 0%;
+        transition: width .5s;
         margin-top: .1rem;
     }
 }

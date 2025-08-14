@@ -57,7 +57,7 @@ export const CadastrarUsuario: React.FC = () => {
 
             navigate("/users")
 
-        } catch (error) {
+        } catch {
             alert("Erro de conexão")
 
         } finally {

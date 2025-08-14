@@ -5,7 +5,7 @@ import { SidebarOption } from "../../components/ui/SidebarOption";
 export const Aside: React.FC = () => {
   return (
     <aside className={`w-32 items-center flex flex-col pt-24 shadow-2xl border-gray-200 gap-8`}>
-      <SidebarOption label="Dashboard" pagePath="/home">
+      <SidebarOption label="Dashboard" pagePath="/dashboard">
         <LayoutDashboard />
       </SidebarOption>
       <SidebarOption label="Usuários" pagePath="/users">

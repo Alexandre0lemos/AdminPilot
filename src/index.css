@@ -32,10 +32,14 @@ body {
 .page-activate {
   border-radius: 10rem;
   opacity: .8;
-  transition:.2s ease-in;
+  transition: color .2s ease-in;
   color: brown;
 }
 
 span {
   font-weight: 500;
+}
+
+tr.f1 {
+  background-color: rgba(0, 0, 0, 0.120);
 }

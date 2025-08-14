@@ -22,39 +22,40 @@ export interface Ordem {
 
 export const Lancamentos: React.FC = () => {
   const [lancamentos, setLancamentos] = useState<ReadonlyArray<Ordem>>();
-  const ultimoLancamento = useRef("")
-  const [filtro, setFiltro] = useState(-1);
-  const inProcess = useRef(false)
+  const ultimoLancamento = useRef("");
+  const [filtro, setFiltro] = useState(0);
+  const inProcess = useRef(false);
 
   const handleGetLancamentos = async () => {
     if (inProcess.current) return false;
-    inProcess.current = true
+    inProcess.current = true;
 
-    const abortController = new AbortController()
-    const timeOut = setTimeout(() => abortController.abort(), 5000)
+    const abortController = new AbortController();
+    const timeOut = setTimeout(() => abortController.abort(), 5000);
 
     try {
       const response = await fetch("http://192.168.0.111:8080/view/lancados", {
         method: "GET",
-        signal: abortController.signal
+        signal: abortController.signal,
       });
 
-      clearTimeout(timeOut)
+      clearTimeout(timeOut);
 
-      if (!response.ok) return console.log("Ocorreu algum erro na logica"), false;
+      if (!response.ok)
+        return console.log("Ocorreu algum erro na logica"), false;
 
       const response_json = await response.json();
 
-      if (JSON.stringify(response_json) == ultimoLancamento.current) return false
-
+      if (JSON.stringify(response_json) == ultimoLancamento.current)
+        return false;
       else {
-        ultimoLancamento.current = JSON.stringify(response_json)
-        setLancamentos(response_json)
+        ultimoLancamento.current = JSON.stringify(response_json);
+        setLancamentos(response_json);
       }
     } catch {
       alert("erro de conexão");
     } finally {
-      inProcess.current = false
+      inProcess.current = false;
     }
   };
 
@@ -77,7 +78,7 @@ export const Lancamentos: React.FC = () => {
     <Container className="flex flex-col gap-2 w-full p-4">
       <nav className="border-b border-gray-300 w-full pb-2 flex justify-between">
         <select
-          defaultValue={"-1"}
+          defaultValue={"0"}
           onChange={(e) => setFiltro(Number(e.target.value))}
           className="text-left hover:cursor-pointer"
           name="filtro"
@@ -87,7 +88,6 @@ export const Lancamentos: React.FC = () => {
           <option value="0">PENDENTES</option>
           <option value="1">FINALIZADOS</option>
         </select>
-
       </nav>
       <div className="overflow-scroll rounded-t-lg rounded-b">
         <table className="text-center w-full">
@@ -106,7 +106,13 @@ export const Lancamentos: React.FC = () => {
           </thead>
           <tbody className="overflow-scroll">
             {ordensFiltradas?.map((ordem) => (
-              <Tr key={ordem.id_lancamento}>
+              <Tr
+                onClick={() => {
+ 
+                }}
+                className={String(ordem.finalizado)}
+                key={ordem.id_lancamento}
+              >
                 <Td>{ordem.cod_produto}</Td>
                 <Td>{ordem.nome_produto}</Td>
                 <Td>{ordem.num_ordem}</Td>

@@ -15,7 +15,7 @@ export const UpdateOPs: React.FC = () => {
 
   const handlePostFile = async () => {
     if (!inProcess.current) {
-      if (!file.current?.files?.[0]) return alert("Nenhum arquivo selecionado"), false;
+      if (!file.current?.files?.[0]) return alert("Nenhum arquivo escolhido"), false;
 
       inProcess.current = true
 
@@ -44,22 +44,22 @@ export const UpdateOPs: React.FC = () => {
         clearTimeout(timeOut)
 
         if (!response.ok) {
-          alert("Erro na logica")
+          alert("Arquivo Excel invalido")
+          inProcess.current = false
+          file.current = null
           return false
         }
         const responseJson = await response.json()
 
-        console.log(responseJson.status)
-
+        alert(responseJson.status)
         file.current = null
 
-
-        setFileName("Nenhum arquivo selecionado")
       } catch (error) {
         console.log(error)
 
       } finally {
         inProcess.current = false
+        setFileName("Nenhum arquivo escolhido")
       }
     };
   }
@@ -81,6 +81,7 @@ export const UpdateOPs: React.FC = () => {
             type="file"
             id="file"
             name="file"
+            ref={file}
             className="hidden"
             accept=".xls,.xlsx"
             onChange={handleFileChange}

@@ -18,7 +18,7 @@ export const SidebarOption: React.FC<ContainerProps> = ({
   return (
     <div
       id={pagePath.split("/")[1].toLowerCase()}
-      className={`${styles.option} flex flex-col items-center hover:cursor-pointer scale-[0.9]`}
+      className={`${styles.option} flex flex-col items-center hover:cursor-pointer scale-[0.9] hover:scale-[0.85] active:scale-[0.95]`}
       onClick={() => navegate(pagePath)}
     >
       {children}
